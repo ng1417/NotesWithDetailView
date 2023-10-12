@@ -1,0 +1,48 @@
+<resources>
+    <string name="app_name">NotesWithDetailView</string>
+    <string name="list_name">List Notes</string>
+    <string name="details_name">Note Details</string>
+
+    <string-array name="note_titles">
+        <item>Note 1</item>
+        <item>Note 2</item>
+        <item>Note 3</item>
+        <item>Note 4</item>
+        <item>Note 5</item>
+        <item>Note 6</item>
+        <item>Note 7</item>
+        <item>Note 8</item>
+        <item>Note 9</item>
+        <item>Note 10</item>
+    </string-array>
+
+    <string-array name="note_details">
+        <item>Did you hear about the mathematician who is afraid of negative numbers?\n\nHe will stop at nothing to avoid them.</item>
+        <item>Why did zero and two break up? \n\nBecause some one got in between them.</item>
+        <item>Two is the only prime number that is even. That makes two really odd.</item>
+        <item>I got a three foot long ruler at a yard sale.</item>
+        <item>Why did the two fours skip a meal? \n\nBecause they already eight!</item>
+        <item>A roman officer walks into a bar, holds up two fingers, and says, "five beers please."</item>
+        <item>I went to buy six cans of Sprite the other day and realised I had picked 7-Up.</item>
+        <item>Warning: Never push the number 8 over. The ramifications can go on forever.</item>
+        <item>Why is the number nine so sassy?\n\nBecause she can\'t even!</item>
+        <item>Man at the theatre asks the usher: What\'s my seat number?\n\nUsher responds: 10-Q.\n\nMan responds: You\'re welcome. Now what\'s my seat number?</item>
+    </string-array>
+
+    <integer-array name="note_ids">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+    </integer-array>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+
+</resources>

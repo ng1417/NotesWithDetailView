@@ -1,20 +1,19 @@
 package com.cs211d.noteswithdetailview
 
-import androidx.appcompat.app.AlertDialog
+import android.R.string
 import android.content.Context
 import android.os.Bundle
 import android.view.*
-import androidx.fragment.app.Fragment
 import android.widget.TextView
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
-import java.io.PrintWriter
-import java.io.File
+import java.io.FileOutputStream
 
-
+const val NOTE_FILE = "notes.txt"
 class ListFragment : Fragment(), MenuProvider {
 
     private lateinit var noteList : MutableList<Note>
@@ -28,6 +27,7 @@ class ListFragment : Fragment(), MenuProvider {
         noteList = NoteList.getInstance(requireContext()).noteList
         recyclerView = rootView.findViewById<RecyclerView>(R.id.note_title_list_recyclerview)
         recyclerView.adapter = NoteAdapter(noteList)
+        val outputStream: FileOutputStream
 
 
         if(noteList.isEmpty()) {
@@ -50,9 +50,20 @@ class ListFragment : Fragment(), MenuProvider {
                 }
                 val id = max+1
                 noteList.add(Note(id, title!!, details!!))
+                val noteListString = noteList.joinToString("\n") { "${it.id},${it.title},${it.details}" }
+
 
                 // STEP 2: Add code to store the new note in a file. Make sure you are appending
                 // to the file and note replacing the contents.
+                try {
+                    outputStream = requireContext().openFileOutput(NOTE_FILE, Context.MODE_PRIVATE)
+                    outputStream.write(noteListString.toByteArray())
+                    outputStream.close()
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+
+
             }
             arguments!!.clear()
         }

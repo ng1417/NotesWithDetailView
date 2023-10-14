@@ -1,8 +1,10 @@
 package com.cs211d.noteswithdetailview
 
+import androidx.appcompat.app.AlertDialog
 import android.R.string
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import android.widget.TextView
 import androidx.core.view.MenuHost
@@ -11,7 +13,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
-import java.io.FileOutputStream
+import java.io.*
 
 const val NOTE_FILE = "notes.txt"
 class ListFragment : Fragment(), MenuProvider {
@@ -34,7 +36,39 @@ class ListFragment : Fragment(), MenuProvider {
             // STEP 3: Add code to read in the notes from a file when the list is empty.
             // Fill up the noteList with the notes read in from the file.
 
-        }
+            try {
+                val fileInputStream = requireContext().openFileInput(NOTE_FILE)
+                val inputStreamReader = InputStreamReader(fileInputStream)
+                val reader = BufferedReader(inputStreamReader)
+
+                var line: String?
+                while (reader.readLine().also { line = it } != null) {
+                    val noteLine = line?.split(",")
+                    if (noteLine != null) {
+                        val id = noteLine[0].toInt()
+                        val title = noteLine[1]
+                        val details = noteLine[2]
+                        val note = Note(id, title, details)
+                        noteList.add(note)
+                    }
+                }
+
+                reader.close()
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }}
+          /*  try {
+                val inputStream = requireContext().openFileInput(NOTE_FILE)
+                val bytes = ByteArray(inputStream.available())
+                val text = inputStream.read(bytes).toString()
+                //this isn't logging anything atm
+                Log.i("contents:", text)
+                inputStream.close()
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+
+        }*/
 
         // this happens when you come back from the CreateFragment
         if(arguments!=null) {
@@ -50,11 +84,14 @@ class ListFragment : Fragment(), MenuProvider {
                 }
                 val id = max+1
                 noteList.add(Note(id, title!!, details!!))
-                val noteListString = noteList.joinToString("\n") { "${it.id},${it.title},${it.details}" }
-
 
                 // STEP 2: Add code to store the new note in a file. Make sure you are appending
                 // to the file and note replacing the contents.
+
+                //put list into csv format
+                val noteListString = noteList.joinToString("\n") { "${it.id},${it.title},${it.details}" }
+
+                //write to file
                 try {
                     outputStream = requireContext().openFileOutput(NOTE_FILE, Context.MODE_PRIVATE)
                     outputStream.write(noteListString.toByteArray())

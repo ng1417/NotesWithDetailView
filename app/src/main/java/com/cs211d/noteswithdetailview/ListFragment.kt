@@ -57,18 +57,7 @@ class ListFragment : Fragment(), MenuProvider {
             } catch (e: Exception) {
                 e.printStackTrace()
             }}
-          /*  try {
-                val inputStream = requireContext().openFileInput(NOTE_FILE)
-                val bytes = ByteArray(inputStream.available())
-                val text = inputStream.read(bytes).toString()
-                //this isn't logging anything atm
-                Log.i("contents:", text)
-                inputStream.close()
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
 
-        }*/
 
         // this happens when you come back from the CreateFragment
         if(arguments!=null) {
@@ -116,9 +105,13 @@ class ListFragment : Fragment(), MenuProvider {
                 }
                 // STEP 4: Add code for what happens when the user selects the "clear list" menu option.
                 R.id.clear_text -> {
+                    //checking for file
                     if (file.exists()) {
+                        //deleting file if exists
                         file.delete()
+                        //clearing list
                         noteList.clear()
+                        //calling recyclerView to update it too
                         recyclerView.adapter?.notifyDataSetChanged()
                     }
                     return true

@@ -4,11 +4,10 @@
 
     <item
         android:id="@+id/create_fragment"
-        android:title="Create Note"
+        android:title="@string/title_create_note"
         app:showAsAction="ifRoom"/>
     <item android:id="@+id/clear_text"
-        android:title="clear notes"
+        android:title="@string/text_clear_notes"
         app:showAsAction="never"/>
-
 
 </menu>

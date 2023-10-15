@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.coroutines.NonDisposableHandle.parent
 import java.io.*
 
 const val NOTE_FILE = "notes.txt"
@@ -30,7 +31,6 @@ class ListFragment : Fragment(), MenuProvider {
         recyclerView = rootView.findViewById<RecyclerView>(R.id.note_title_list_recyclerview)
         recyclerView.adapter = NoteAdapter(noteList)
         val outputStream: FileOutputStream
-
 
         if(noteList.isEmpty()) {
             // STEP 3: Add code to read in the notes from a file when the list is empty.
@@ -99,8 +99,6 @@ class ListFragment : Fragment(), MenuProvider {
                 } catch (e: Exception) {
                     e.printStackTrace()
                 }
-
-
             }
             arguments!!.clear()
         }
@@ -109,16 +107,24 @@ class ListFragment : Fragment(), MenuProvider {
     }
 
     override fun onMenuItemSelected(item: MenuItem): Boolean {
-        when(item.itemId) {
-            R.id.create_fragment -> {
-                Navigation.findNavController(requireView())
-                    .navigate(R.id.action_list_fragment_to_createFragment)
-                return true
+        val file = File(requireContext().filesDir, NOTE_FILE)
+            when(item.itemId) {
+                R.id.create_fragment -> {
+                    Navigation.findNavController(requireView())
+                        .navigate(R.id.action_list_fragment_to_createFragment)
+                    return true
+                }
+                // STEP 4: Add code for what happens when the user selects the "clear list" menu option.
+                R.id.clear_text -> {
+                    if (file.exists()) {
+                        file.delete()
+                        noteList.clear()
+                        recyclerView.adapter?.notifyDataSetChanged()
+                    }
+                    return true
+                }
+                else -> return false
             }
-            // STEP 4: Add code for what happens when the user selects the "clear list" menu option.
-            else -> return false
-        }
-
     }
 
     override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
@@ -159,4 +165,5 @@ class ListFragment : Fragment(), MenuProvider {
                     noteTitleTextView.text = note.title
                 }
            }
+
 }

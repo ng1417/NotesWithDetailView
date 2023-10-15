@@ -6,6 +6,9 @@
         android:id="@+id/create_fragment"
         android:title="Create Note"
         app:showAsAction="ifRoom"/>
+    <item android:id="@+id/clear_text"
+        android:title="clear notes"
+        app:showAsAction="never"/>
 
 
 </menu>

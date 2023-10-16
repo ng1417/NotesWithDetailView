@@ -91,7 +91,6 @@ class ListFragment : Fragment(), MenuProvider {
             }
             arguments!!.clear()
         }
-
         return rootView
     }
 
@@ -105,18 +104,27 @@ class ListFragment : Fragment(), MenuProvider {
                 }
                 // STEP 4: Add code for what happens when the user selects the "clear list" menu option.
                 R.id.clear_text -> {
-                    //checking for file
-                    if (file.exists()) {
-                        //deleting file if exists
-                        file.delete()
-                        //clearing list
-                        noteList.clear()
-                        //calling recyclerView to update it too
-                        recyclerView.adapter?.notifyDataSetChanged()
-                    }
+                    val builder = AlertDialog.Builder(requireActivity())
+                    builder.setMessage(R.string.text_confirm_dialog)
+                        .setPositiveButton("Yes") { dialog, id ->
+                            //checking for file
+                            if (file.exists()) {
+                                //deleting file if exists
+                                file.delete()
+                                //clearing list
+                                noteList.clear()
+                                //calling recyclerView to update it too
+                                recyclerView.adapter?.notifyDataSetChanged()
+                            }
+                        }
+                        //return true
+                        .setNegativeButton("No") { dialog, id ->
+                            dialog.dismiss()
+                        }
+                    builder.create().show()
                     return true
                 }
-                else -> return false
+                    else -> return false
             }
     }
 
